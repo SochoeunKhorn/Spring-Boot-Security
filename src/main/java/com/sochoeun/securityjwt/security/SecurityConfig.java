@@ -25,8 +25,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                 req
                         .requestMatchers("/index.html","/","index.html").permitAll()
-                        .requestMatchers("/api/auth/register").permitAll()
+                        .requestMatchers("/api/auth/register").hasRole("SUPER-ADMIN")
                         .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers("/api/users/**").hasRole("SUPER-ADMIN")
                         .anyRequest()
                         .authenticated()
 

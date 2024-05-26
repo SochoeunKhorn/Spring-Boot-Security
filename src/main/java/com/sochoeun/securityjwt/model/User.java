@@ -30,6 +30,8 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+    @Column(columnDefinition = "boolean default true")
+    private Boolean status;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,6 +66,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.status;
     }
 }

@@ -16,13 +16,13 @@ import java.time.LocalDateTime;
 public class BaseResponse {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime timestamp;
-    private HttpStatus status;
+    private HttpStatus httpStatus;
     private String message;
     private Object object;
 
     public void success(Object object){
         this.timestamp = LocalDateTime.now();
-        this.status =  HttpStatus.OK;
+        this.httpStatus =  HttpStatus.OK;
         this.message = "Success";
         this.object = object;
     }

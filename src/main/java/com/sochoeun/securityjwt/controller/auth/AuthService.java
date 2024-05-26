@@ -38,6 +38,7 @@ public class AuthService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roles(roles)
+                .status(true)
                 .build();
         User save = userRepository.save(user);
 
@@ -50,12 +51,14 @@ public class AuthService {
         response.setRoles(save.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
 
         return response;*/
+        String generateToken = save.getPassword();
         return AuthResponse.builder()
                 .firstName(save.getFirstname())
                 .lastName(save.getLastname())
                 .email(save.getEmail())
                 .profile(save.getProfile())
                 .roles(save.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                .token(generateToken)
                 .build();
     }
 
