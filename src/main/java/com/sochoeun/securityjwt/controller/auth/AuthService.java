@@ -4,7 +4,9 @@ import com.sochoeun.securityjwt.model.Role;
 import com.sochoeun.securityjwt.model.User;
 import com.sochoeun.securityjwt.repository.RoleRepository;
 import com.sochoeun.securityjwt.repository.UserRepository;
+import com.sochoeun.securityjwt.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,11 +18,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AuthenticationManager authenticationManager;
+
+    private final JwtService jwtService;
 
     public AuthResponse register(RegisterRequest request){
         // get roles from request
@@ -66,6 +71,10 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
         );
+        // generate token
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        var token = jwtService.generateToken(user);
+       // log.info("user{}",user.getStatus());
         var response = userRepository.findUserByEmail(request.getEmail());
 
         /*authResponse.setFirstName(response.getFirstname());
@@ -74,14 +83,14 @@ public class AuthService {
         authResponse.setProfile(response.getProfile());
         authResponse.setRoles(response.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
 */
-        String generateToken = response.getPassword();
+        String getToken = token;
         return AuthResponse.builder()
                 .firstName(response.getFirstname())
                 .lastName(response.getLastname())
                 .email(response.getEmail())
                 .profile(response.getProfile())
                 .roles(response.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
-                .token(generateToken)
+                .token(getToken)
                 .build();
     }
 }
