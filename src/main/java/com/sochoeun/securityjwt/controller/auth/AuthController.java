@@ -1,6 +1,7 @@
 package com.sochoeun.securityjwt.controller.auth;
 
 import com.sochoeun.securityjwt.model.BaseResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
     private BaseResponse baseResponse;
+
+    @Hidden
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request){
         AuthResponse registered = authService.register(request);

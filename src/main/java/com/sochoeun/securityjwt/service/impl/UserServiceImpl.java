@@ -1,5 +1,6 @@
 package com.sochoeun.securityjwt.service.impl;
 
+import com.sochoeun.securityjwt.exception.RoleNotFoundException;
 import com.sochoeun.securityjwt.model.Role;
 import com.sochoeun.securityjwt.model.User;
 import com.sochoeun.securityjwt.model.request.UserRequest;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         List<Role> roles = new ArrayList<>();
         for (String role:strRole){
             Role getRole = roleRepository.findByName(role).orElseThrow(
-                    () -> new RuntimeException("Role:%s not found".formatted(role)));
+                    () -> new RoleNotFoundException(role));
             roles.add(getRole);
         }
 
@@ -95,4 +95,5 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
 }

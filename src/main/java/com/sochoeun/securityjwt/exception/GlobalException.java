@@ -1,5 +1,6 @@
 package com.sochoeun.securityjwt.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,4 +12,10 @@ public class GlobalException {
     public ResponseEntity<?> exceptionHandler(Exception e){
         return ResponseEntity.ok().body(e.getMessage());
     }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<?> roleNotFoundHandler(RoleNotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
 }

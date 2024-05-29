@@ -1,8 +1,6 @@
 package com.sochoeun.securityjwt.controller.user;
 
 import com.sochoeun.securityjwt.model.BaseResponse;
-import com.sochoeun.securityjwt.model.Role;
-import com.sochoeun.securityjwt.model.User;
 import com.sochoeun.securityjwt.model.request.UserRequest;
 import com.sochoeun.securityjwt.model.response.UserResponse;
 import com.sochoeun.securityjwt.service.UserService;
@@ -10,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,4 +41,5 @@ public class UserController {
         userService.updateUser(userId,request);
         return ResponseEntity.ok("User ID: %s updated".formatted(userId));
     }
+
 }
