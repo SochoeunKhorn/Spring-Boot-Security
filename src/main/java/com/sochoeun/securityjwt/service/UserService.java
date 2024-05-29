@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    List<UserResponse> getUsers();
+    List<UserResponse> getUsers(String firstname);
     User getUser(Integer userId);
     void disableUser(Integer userId);
     void enableUser(Integer userId);

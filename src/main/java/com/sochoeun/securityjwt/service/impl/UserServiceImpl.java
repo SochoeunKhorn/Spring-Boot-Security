@@ -26,8 +26,14 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public List<UserResponse> getUsers() {
-        List<User> all = userRepository.findAll();
+    public List<UserResponse> getUsers(String firstname) {
+        List<User> all;
+        if(firstname == null){
+           all = userRepository.findAll();
+        }else {
+          all =  userRepository.findAllByFirstnameContainingIgnoreCase(firstname);
+        }
+
 
         List<UserResponse> userResponses = new ArrayList<>();
         all.forEach(user -> {

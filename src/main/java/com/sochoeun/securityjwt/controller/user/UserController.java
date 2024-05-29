@@ -16,9 +16,9 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private BaseResponse baseResponse;
-    @GetMapping
-    public ResponseEntity<?> getUsers(){
-        List<UserResponse> users = userService.getUsers();
+    @GetMapping()
+    public ResponseEntity<?> getUsers(@RequestParam(required = false) String firstname){
+        List<UserResponse> users = userService.getUsers(firstname);
         baseResponse = new BaseResponse();
         baseResponse.success(users);
         return ResponseEntity.ok(baseResponse);
