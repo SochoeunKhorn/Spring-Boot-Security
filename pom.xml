@@ -11,6 +11,7 @@
 	<groupId>com.sochoeun</groupId>
 	<artifactId>security-jwt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>security-jwt</name>
 	<description>Spring security with JWT</description>
 	<properties>
@@ -70,6 +71,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>Spring-Security-API</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
