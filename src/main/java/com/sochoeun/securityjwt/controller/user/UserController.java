@@ -7,8 +7,15 @@ import com.sochoeun.securityjwt.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+
+import static com.sochoeun.securityjwt.constant.constant.PHOTO_DIRECTORY;
+import static org.springframework.util.MimeTypeUtils.IMAGE_JPEG_VALUE;
+import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
 
 @RestController
 @RequestMapping("/api/users")
@@ -40,6 +47,17 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable Integer userId,@RequestBody UserRequest request){
         userService.updateUser(userId,request);
         return ResponseEntity.ok("User ID: %s updated".formatted(userId));
+    }
+
+    @PutMapping("/update/profile")
+    public ResponseEntity<String> updateUserProfile(@RequestParam Integer userId, @RequestParam MultipartFile file){
+        String profile = userService.uploadProfile(userId, file);
+        return ResponseEntity.ok().body(profile);
+    }
+
+    @GetMapping(path = "/profile/{filename}",produces = {IMAGE_PNG_VALUE,IMAGE_JPEG_VALUE})
+    public byte[] getProfile(@PathVariable("filename") String filename) throws Exception{
+        return Files.readAllBytes(Paths.get(PHOTO_DIRECTORY + filename));
     }
 
 }

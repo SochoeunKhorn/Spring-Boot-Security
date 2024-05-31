@@ -13,9 +13,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import static com.sochoeun.securityjwt.constant.constant.PHOTO_DIRECTORY;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 
 @Service
@@ -101,5 +113,41 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public String uploadProfile(Integer userId, MultipartFile file) {
+        User user = getUser(userId);
+        String getProfileName =(user.getFirstname()+ "-" +user.getLastname()).toLowerCase();
+        String photoUrl = photoFunction.apply(getProfileName,file);
+        user.setProfile(photoUrl);
+        userRepository.save(user);
+        return photoUrl;
+    }
+
+    private final Function<String,String> fileExtension =
+            filename -> Optional.of(filename)
+                    .filter(name -> name.contains("."))
+                    .map(name
+                            -> "." + name.substring(filename.lastIndexOf(".")+1)).orElse(".png");
+
+    private final BiFunction<String,MultipartFile,String> photoFunction = (id,image) ->{
+        try{
+            Path fileStorageLocation = Paths.get(PHOTO_DIRECTORY).toAbsolutePath().normalize();
+            if (!Files.exists(fileStorageLocation)){
+                Files.createDirectories(fileStorageLocation);
+            }
+
+            Files.copy(
+                    image.getInputStream(),
+                    fileStorageLocation.resolve(id + fileExtension.apply(image.getOriginalFilename())), // filename
+                    REPLACE_EXISTING);
+
+            return ServletUriComponentsBuilder
+                    .fromCurrentContextPath() // localhost:8080
+                    .path("/api/users/profile/" + id + fileExtension.apply(image.getOriginalFilename())).toUriString();
+        }catch (Exception e){
+            throw new RuntimeException("Unable to save image");
+        }
+    };
 
 }
