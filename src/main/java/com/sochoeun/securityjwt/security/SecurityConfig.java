@@ -39,6 +39,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                 req
                         .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers("/api/demo/**").permitAll()
+                        .requestMatchers("/api/demo/**").permitAll()
                         .requestMatchers("/api/auth/register").hasRole("SUPER-ADMIN")
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/users/**").hasRole("SUPER-ADMIN")
