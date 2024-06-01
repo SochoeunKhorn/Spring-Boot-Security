@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MediaRepository extends JpaRepository<Media,String> {
+public interface MediaRepository extends JpaRepository<Media,Integer> {
     // findAllByMediaType: Image or Video
     List<Media> findAllByMediaType(String type);
     // findAllByContentId

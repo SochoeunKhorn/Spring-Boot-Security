@@ -1,6 +1,7 @@
 package com.sochoeun.securityjwt.service;
 
 import com.sochoeun.securityjwt.model.Slide;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface SlideService {
     Slide getSlide(Integer slideId);
     Slide updateSlide(Integer slideId,Slide request);
     void deleteSlide(Integer slideId);
+
+    String uploadPhoto(Integer slideId, MultipartFile file);
 }

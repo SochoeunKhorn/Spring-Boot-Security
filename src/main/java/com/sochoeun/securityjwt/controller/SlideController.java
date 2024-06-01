@@ -6,8 +6,15 @@ import com.sochoeun.securityjwt.service.SlideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+
+import static com.sochoeun.securityjwt.constant.constant.PHOTO_SLIDE_DIRECTORY;
+import static org.springframework.util.MimeTypeUtils.IMAGE_JPEG_VALUE;
+import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
 
 @RestController
 @RequestMapping("/api/slides")
@@ -54,5 +61,16 @@ public class SlideController {
         baseResponse = new BaseResponse();
         baseResponse.success("Deleted");
         return ResponseEntity.ok(baseResponse);
+    }
+
+    @PutMapping("/upload/photo")
+    public ResponseEntity<String> updateUserProfile(@RequestParam Integer slideId, @RequestParam MultipartFile file){
+        String profile = slideService.uploadPhoto(slideId, file);
+        return ResponseEntity.ok().body(profile);
+    }
+
+    @GetMapping(path = "/photo/{filename}",produces = {IMAGE_PNG_VALUE,IMAGE_JPEG_VALUE})
+    public byte[] getProfile(@PathVariable("filename") String filename) throws Exception{
+        return Files.readAllBytes(Paths.get(PHOTO_SLIDE_DIRECTORY + filename));
     }
 }

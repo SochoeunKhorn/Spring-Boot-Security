@@ -43,6 +43,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/categories/**").permitAll()
                         .requestMatchers("/api/slides/**").permitAll()
                         .requestMatchers("/api/medias/**").permitAll()
+                        .requestMatchers("/api/articles/**").permitAll()
+                        .requestMatchers("/api/contents/**").permitAll()
                         .requestMatchers(GET,"/api/users").permitAll()
                         .requestMatchers("/api/auth/register").hasRole("SUPER-ADMIN")
                         .requestMatchers("/api/auth/login").permitAll()

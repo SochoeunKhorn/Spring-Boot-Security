@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface CategoryService {
     // crud
-
     Category createCategory(Category request);
     List<Category> getAllCategory();
     Category getCategory(Integer categoryId);

@@ -1,9 +1,6 @@
 package com.sochoeun.securityjwt.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +15,8 @@ import org.hibernate.annotations.UuidGenerator;
 @Table(name = "medias")
 public class Media {
     @Id
-    @UuidGenerator
-    @Column(name = "id", unique = true, updatable = false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
     private String mediaType;
     private String mediaUrl;

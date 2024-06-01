@@ -3,22 +3,20 @@ package com.sochoeun.securityjwt.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-@Table(name = "categories")
-public class Category {
-
+@Table(name = "articles")
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nameKh;
-    private String nameEn;
+    private String name;
 
-    /*@OneToMany(mappedBy = "category")
-    private List<Article> articles;*/
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
