@@ -56,12 +56,14 @@ public class AuthService {
         response.setRoles(save.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
 
         return response;*/
+        String token = jwtService.generateToken(save);
         return AuthResponse.builder()
                 .firstName(save.getFirstname())
                 .lastName(save.getLastname())
                 .email(save.getEmail())
                 .profile(save.getProfile())
                 .roles(save.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                .token(token)
                 .build();
     }
 

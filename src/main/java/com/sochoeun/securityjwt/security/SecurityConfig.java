@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -40,7 +40,10 @@ public class SecurityConfig {
                 req
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers("/api/demo/**").permitAll()
-                        .requestMatchers("/api/demo/**").permitAll()
+                        .requestMatchers("/api/categories/**").permitAll()
+                        .requestMatchers("/api/slides/**").permitAll()
+                        .requestMatchers("/api/medias/**").permitAll()
+                        .requestMatchers(GET,"/api/users").permitAll()
                         .requestMatchers("/api/auth/register").hasRole("SUPER-ADMIN")
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/users/**").hasRole("SUPER-ADMIN")
