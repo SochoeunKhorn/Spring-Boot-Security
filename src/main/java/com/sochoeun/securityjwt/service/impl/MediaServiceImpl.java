@@ -55,7 +55,7 @@ public class MediaServiceImpl implements MediaService {
         Media media = getMedia(mediaId);
         String mediaName = media.getName().toLowerCase();
         String mediaUrl = photoFunction.apply(mediaName,file);
-        media.setMediaType(mediaUrl);
+        media.setMediaUrl(mediaUrl);
         mediaRepository.save(media);
         return mediaUrl;
     }
